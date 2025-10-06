@@ -1,0 +1,74 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+#include "Image_Class.h"
+
+
+Image flippedHoriziontal(Image image) {
+
+    for (int i = 0; i < image.width / 2; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+
+            for (int k = 0; k < 3; ++k)
+            {
+                swap(image(i, j, k), image(image.width - 1 - i, j, k));
+
+            }
+
+        }
+    }
+    return image;
+}
+
+Image flippedVertical(Image image) {
+
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height / 2; ++j) {
+
+            for (int k = 0; k < 3; ++k)
+            {
+                swap(image(i, j, k), image(i, image.height - 1 - j, k));
+
+            }
+
+        }
+    }
+    return image;
+}
+
+
+int main() {
+    string filename;
+    char choice;
+
+
+    cout << "Pls enter  image name to flip it: ";
+    cin >> filename;
+
+    Image image(filename);
+
+    cout << "Do you want it vertical or hOrizotal (v/n): ";
+    cin >> choice;
+
+    Image flipped = image;
+    if (choice == 'v')
+    {
+         flipped = flippedVertical(image);
+    }
+    else if (choice == 'h')
+    {
+          flipped = flippedHoriziontal(image);
+
+    }
+
+
+
+
+    cout << "Pls enter image name to store new image\n";
+    cout << "and specify extension .jpg, .bmp, .png, .tga: ";
+    cin >> filename;
+     flipped.saveImage(filename);
+    system(filename.c_str());
+
+    return 0;
+}
