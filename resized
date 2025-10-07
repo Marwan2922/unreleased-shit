@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+#include "Image_Class.h"
+
+
+Image Resize(int x, int y, Image image)
+{
+    Image resized(x, y);
+
+    double Xratio = (double)image.width / x;
+    double Yratio = (double)image.height / y;
+
+    for (int i = 0; i < x; ++i) {
+        for (int j = 0; j < y; ++j) {
+
+            int oldX = int(j* Xratio);
+            int oldY = int(i * Yratio);
+
+            for (int k = 0; k < 3; ++k)
+            {
+                resized(j, i, k) = image(oldX, oldY, k);
+            }
+
+        }
+    }
+
+    return resized;
+}
+
+
+int main() {
+    string filename;
+    cout << "Pls enter image name to resize it : ";
+    cin >> filename;
+
+    Image image(filename);
+    int x, y;
+    cout <<"Plz enter the new dimenstion :  ";
+    cin >> x >> y;
+    Image resized = Resize(x, y,image);
+    
+
+    cout << "Pls enter image name to store new image\n";
+    cout << "and specify extension .jpg, .bmp, .png, .tga: ";
+    cin >> filename;
+     resized.saveImage(filename);
+    system(filename.c_str());
+
+    return 0;
+}
